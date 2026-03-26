@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 19, 2026 at 04:10 AM
+-- Generation Time: Mar 26, 2026 at 11:42 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,33 +24,62 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `lnf_admins`
+--
+
+CREATE TABLE `lnf_admins` (
+  `id` int(11) NOT NULL,
+  `admin_username` varchar(50) NOT NULL,
+  `admin_password` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `lnf_admins`
+--
+
+INSERT INTO `lnf_admins` (`id`, `admin_username`, `admin_password`) VALUES
+(1, 'admin', 'lnfadmin');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `lnf_itemlist`
 --
 
 CREATE TABLE `lnf_itemlist` (
   `lnf_id` int(11) NOT NULL,
   `lnf_item` varchar(50) NOT NULL,
-  `lnf_category` varchar(50) NOT NULL,
+  `lnf_category` enum('Electronics','ID / Documents','Bags','Accessories','Others') NOT NULL DEFAULT 'Others',
   `lnf_location` varchar(50) NOT NULL,
   `lnf_description` text NOT NULL,
   `lnf_image` varchar(60) NOT NULL,
   `lnf_contact` varchar(50) NOT NULL,
-  `lnf_timestamp` timestamp NOT NULL DEFAULT current_timestamp()
+  `lnf_timestamp` timestamp NOT NULL DEFAULT current_timestamp(),
+  `lnf_approval` enum('pending','approved','rejected') NOT NULL DEFAULT 'pending',
+  `lnf_status` enum('lost','found','claimed') NOT NULL DEFAULT 'lost',
+  `lnf_claimed_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `lnf_itemlist`
 --
 
-INSERT INTO `lnf_itemlist` (`lnf_id`, `lnf_item`, `lnf_category`, `lnf_location`, `lnf_description`, `lnf_image`, `lnf_contact`, `lnf_timestamp`) VALUES
-(8, 'Grey Bag', 'Bags', 'Main Building', 'Found inside the hallways.', 'lostbag.jpg', '099999999', '2026-03-12 09:32:12'),
-(9, 'House Keys', 'Others', 'Library', 'A key, if I remember.', 'lostkeys.jpg', '', '2026-03-12 10:12:55'),
-(18, 'Lost Cat', 'Others', 'Canteen', 'A lost cat description', 'cat-cute.gif', '09999999999', '2026-03-12 12:55:27'),
-(19, 'Duke Flores', 'Others', 'Lobby', 'Mapayat, kulot at naka salamin.', 'ddc67b999c1bb896f4435d6f3207ed49.jpg', '1912041204912', '2026-03-14 06:10:57');
+INSERT INTO `lnf_itemlist` (`lnf_id`, `lnf_item`, `lnf_category`, `lnf_location`, `lnf_description`, `lnf_image`, `lnf_contact`, `lnf_timestamp`, `lnf_approval`, `lnf_status`, `lnf_claimed_at`) VALUES
+(1, 'Black Wallet', 'Accessories', 'Canteen', 'It is a black-colored wallet I lost near the food stall.', 'download.jpg', '09820028492', '2026-03-26 07:49:14', 'approved', 'claimed', '2026-03-26 15:53:18'),
+(3, 'Brown Wallet', 'Bags', 'Library', 'Color Brown, Leather Texture', 'lostwallet.jpeg', 'mikotungol20@gmail.com', '2026-03-26 07:59:00', 'approved', 'found', NULL),
+(4, 'Lost Keys', 'Others', 'Restroom', 'I lost my keys; last time I saw them when I was in a restroom', 'lostkeys.jpg', 'mikotungol20@gmail.com', '2026-03-26 08:54:51', 'approved', 'claimed', '2026-03-26 17:30:02'),
+(6, 'Lost Cat', 'Others', 'SCHOOL', 'USELESS', 'cat-cute.gif', 'miko@gmail.com', '2026-03-26 09:37:48', 'approved', 'claimed', '2026-03-26 17:40:21'),
+(7, 'Rolex', 'Accessories', 'No idea', 'I lost my rolex, i have no idea where i placed it.', 'images.jpg', 'mikotungol20@gmail.com', '2026-03-26 09:52:39', 'approved', 'claimed', '2026-03-26 18:19:26');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `lnf_admins`
+--
+ALTER TABLE `lnf_admins`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `lnf_itemlist`
@@ -63,10 +92,16 @@ ALTER TABLE `lnf_itemlist`
 --
 
 --
+-- AUTO_INCREMENT for table `lnf_admins`
+--
+ALTER TABLE `lnf_admins`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `lnf_itemlist`
 --
 ALTER TABLE `lnf_itemlist`
-  MODIFY `lnf_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `lnf_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
